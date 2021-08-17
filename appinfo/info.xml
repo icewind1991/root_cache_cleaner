@@ -10,4 +10,8 @@
 	<dependencies>
 		<nextcloud min-version="20" max-version="22" />
 	</dependencies>
+
+	<commands>
+		<command>OCA\RootCacheClean\Command\Cleanup</command>
+	</commands>
 </info>
