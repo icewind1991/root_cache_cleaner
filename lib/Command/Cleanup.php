@@ -24,8 +24,8 @@ declare(strict_types=1);
 namespace OCA\RootCacheClean\Command;
 
 use OC\Core\Command\Base;
+use OCA\RootCacheClean\Cleaner;
 use OCP\Files\IRootFolder;
-use OCP\IDBConnection;
 use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -33,16 +33,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class Cleanup extends Base {
-	/** @var IDBConnection */
-	private $connection;
+	/** @var Cleaner */
+	private $cleaner;
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(IDBConnection $connection, IUserManager $userManager, IRootFolder $rootFolder) {
+	public function __construct(Cleaner $cleaner, IUserManager $userManager, IRootFolder $rootFolder) {
 		parent::__construct();
-		$this->connection = $connection;
+		$this->cleaner = $cleaner;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
 	}
@@ -72,7 +72,8 @@ class Cleanup extends Base {
 		$deleted = 0;
 		$this->userManager->callForSeenUsers(function ($user) use ($rootStorageId, &$deleted, $output) {
 			$output->write("Cleaning for user <info>" . $user->getUID() . "</info>...");
-			$userDeleted = $this->cleanForUser($rootStorageId, $user->getUID());;
+			$userDeleted = $this->cleaner->cleanForUser($rootStorageId, $user->getUID());
+			;
 			$output->writeln(" Done, deleted <info>$userDeleted</info> entries.");
 			$deleted += $userDeleted;
 		});
@@ -80,13 +81,5 @@ class Cleanup extends Base {
 		$output->writeln("Deleted <info>$deleted</info> entries in total.");
 
 		return 0;
-	}
-
-	protected function cleanForUser(int $rootStorageId, string $uid): int {
-		$query = $this->connection->getQueryBuilder();
-		$query->delete('filecache')
-			->where($query->expr()->eq('storage', $query->createNamedParameter($rootStorageId)))
-			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter("$uid/") . '%')));
-		return $query->execute();
 	}
 }
