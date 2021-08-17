@@ -62,6 +62,7 @@ class Cleanup extends Base {
 			$helper = $this->getHelper('question');
 			$output->writeln("While the cleanup process should be safe there is still a risk involved in bulk deleting filecache entries like this.");
 			$output->writeln("It is <options=underscore>strongly</> recommended to ensure that a proper database backup is in place before running this process.");
+			$output->writeln("Note that this process involves some fairly heavy database queries and can take a long time on large instances.");
 			$question = new ConfirmationQuestion("Continue? [y/N]", false);
 
 			if (!$helper->ask($input, $output, $question)) {

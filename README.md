@@ -24,3 +24,5 @@ running the cleanup.
 - Ensure proper database backends are in place.
 - Install the app.
 - Run the cleaner with `occ root_cache_cleaner:clean`.
+
+Note that the cleanup process involves some fairly heavy database queries and can take a long time on large instances.
