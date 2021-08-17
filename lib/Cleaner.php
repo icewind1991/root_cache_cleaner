@@ -40,6 +40,6 @@ class Cleaner {
 		$query->delete('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($rootStorageId)))
 			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter("$uid/") . '%')));
-		return $query->execute();
+		return (int)$query->execute();
 	}
 }
