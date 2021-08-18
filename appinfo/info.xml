@@ -4,12 +4,17 @@
 	<name>Root cache cleaner</name>
 	<licence>AGPL</licence>
 	<author>Robin Appelman</author>
-	<description>Clean duplicate items from the root filecache.</description>
+	<summary>Clean duplicate items from the root filecache.</summary>
+	<description>Clean duplicate items from the root filecache by deleting user specific entries that got indexed into the root cache by mistake.</description>
 	<version>0.1.0</version>
 	<namespace>RootCacheClean</namespace>
 	<dependencies>
 		<nextcloud min-version="20" max-version="22" />
 	</dependencies>
+
+	<website>https://github.com/icewind1991/root_cache_cleaner</website>
+	<bugs>https://github.com/icewind1991/root_cache_cleaner/issues</bugs>
+	<repository>https://github.com/icewind1991/root_cache_cleaner.git</repository>
 
 	<commands>
 		<command>OCA\RootCacheClean\Command\Cleanup</command>
