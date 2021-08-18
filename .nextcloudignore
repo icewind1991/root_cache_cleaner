@@ -8,3 +8,6 @@
 krankerl.toml
 screenshots
 .nextcloudignore
+composer.*
+.php_cs.dist
+psalm.xml
