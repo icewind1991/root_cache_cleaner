@@ -26,10 +26,7 @@ namespace OCA\RootCacheClean;
 use OCP\IDBConnection;
 
 class Cleaner {
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	private IDBConnection $connection;
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
@@ -40,6 +37,6 @@ class Cleaner {
 		$query->delete('filecache')
 			->where($query->expr()->eq('storage', $query->createNamedParameter($rootStorageId)))
 			->andWhere($query->expr()->like('path', $query->createNamedParameter($this->connection->escapeLikeParameter("$uid/") . '%')));
-		return (int)$query->execute();
+		return $query->executeStatement();
 	}
 }
