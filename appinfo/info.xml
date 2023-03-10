@@ -1,20 +1,23 @@
 <?xml version="1.0"?>
-<info>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>root_cache_cleaner</id>
 	<name>Root cache cleaner</name>
-	<licence>AGPL</licence>
-	<author>Robin Appelman</author>
 	<summary>Clean duplicate items from the root filecache.</summary>
 	<description>Clean duplicate items from the root filecache by deleting user specific entries that got indexed into the root cache by mistake.</description>
 	<version>0.1.3</version>
+	<licence>agpl</licence>
+	<author>Robin Appelman</author>
 	<namespace>RootCacheClean</namespace>
-	<dependencies>
-		<nextcloud min-version="23" max-version="25" />
-	</dependencies>
+	<category>tools</category>
 
 	<website>https://github.com/icewind1991/root_cache_cleaner</website>
 	<bugs>https://github.com/icewind1991/root_cache_cleaner/issues</bugs>
 	<repository>https://github.com/icewind1991/root_cache_cleaner.git</repository>
+
+	<dependencies>
+		<nextcloud min-version="23" max-version="25" />
+	</dependencies>
 
 	<commands>
 		<command>OCA\RootCacheClean\Command\Cleanup</command>

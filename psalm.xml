@@ -7,7 +7,7 @@
 	xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
 	<extraFiles>
-		<directory name="vendor/christophwurst/nextcloud"/>
+		<directory name="vendor/nextcloud/ocp"/>
 	</extraFiles>
 	<projectFiles>
 		<directory name="lib"/>
