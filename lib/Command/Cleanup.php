@@ -52,24 +52,24 @@ class Cleanup extends Base {
 		$this
 			->setName('root_cache_cleaner:clean')
 			->setDescription('Clean duplicate items from the root filecache')
-			->addOption('no-warning', null, InputOption::VALUE_NONE, "Disable the warning before starting the cleaning process");
+			->addOption('no-warning', null, InputOption::VALUE_NONE, 'Disable the warning before starting the cleaning process');
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$rootStorage = $this->rootFolder->get('')->getStorage();
 		if (!$rootStorage->instanceOfStorage(LocalRootStorage::class)) {
-			$output->writeln("This app only works when using local storage for the root.");
+			$output->writeln('This app only works when using local storage for the root.');
 			return 1;
 		}
 		$rootStorageId = $rootStorage->getCache()->getNumericStorageId();
 
 		if (!$input->getOption('no-warning')) {
 			$helper = $this->getHelper('question');
-			$output->writeln("While the cleanup process should be safe there is still a risk involved in bulk deleting filecache entries like this.");
-			$output->writeln("It is <options=underscore>strongly</> recommended to ensure that a proper database backup is in place before running this process.");
-			$output->writeln("Note that this process involves some fairly heavy database queries and can take a long time on large instances.");
-			$question = new ConfirmationQuestion("Continue? [y/N] ", false);
+			$output->writeln('While the cleanup process should be safe there is still a risk involved in bulk deleting filecache entries like this.');
+			$output->writeln('It is <options=underscore>strongly</> recommended to ensure that a proper database backup is in place before running this process.');
+			$output->writeln('Note that this process involves some fairly heavy database queries and can take a long time on large instances.');
+			$question = new ConfirmationQuestion('Continue? [y/N] ', false);
 
 			if (!$helper->ask($input, $output, $question)) {
 				return 0;
@@ -78,7 +78,7 @@ class Cleanup extends Base {
 
 		$deleted = 0;
 		$this->userManager->callForSeenUsers(function ($user) use ($rootStorageId, &$deleted, $output) {
-			$output->write("Cleaning for user <info>" . $user->getUID() . "</info>...");
+			$output->write('Cleaning for user <info>' . $user->getUID() . '</info>...');
 			$userDeleted = $this->cleaner->cleanForUser($rootStorageId, $user->getUID());
 			;
 			$output->writeln(" Done, deleted <info>$userDeleted</info> entries.");
