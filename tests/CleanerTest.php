@@ -26,23 +26,14 @@ namespace OCA\RootCacheCleaner\Tests;
 use OC\Files\Storage\Local;
 use OC\Files\Storage\Temporary;
 use OCA\RootCacheClean\Cleaner;
+use OCP\Server;
 use Test\TestCase;
 
 /**
  * @group DB
  */
 class CleanerTest extends TestCase {
-	/** @var Cleaner */
-	private $cleaner;
-
-	protected function setUp(): void {
-		parent::setUp();
-
-		$this->cleaner = \OC::$server->get(Cleaner::class);
-	}
-
-
-	public function testCleanup() {
+	public function testCleanup(): void {
 		$rootStorage = new Temporary([]);
 		$rootStorage->mkdir('user');
 		$userStorage = new Local(['datadir' => $rootStorage->getSourcePath('user')]);
@@ -68,7 +59,8 @@ class CleanerTest extends TestCase {
 
 		$this->assertTrue($userCache->inCache('files/user_file.txt'));
 
-		$this->assertEquals(2, $this->cleaner->cleanForUser($rootCache->getNumericStorageId(), 'user'));
+		$cleaner = Server::get(Cleaner::class);
+		$this->assertEquals(2, $cleaner->cleanForUser($rootCache->getNumericStorageId(), 'user'));
 
 		$this->assertTrue($rootCache->inCache('appdata/data.txt'));
 		$this->assertFalse($rootCache->inCache('user/files'));
